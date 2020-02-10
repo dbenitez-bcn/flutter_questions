@@ -23,7 +23,7 @@ class QuestionDetails extends StatelessWidget {
     );
   }
 
-  TimeCount buildTimeCount() => TimeCount(5);
+  TimeCount buildTimeCount() => TimeCount(10);
 
   Center buildTitle(BuildContext context) {
     return Center(

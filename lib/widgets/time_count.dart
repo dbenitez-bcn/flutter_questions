@@ -1,44 +1,32 @@
 import 'package:flutter/material.dart';
 
-class TimeCount extends StatefulWidget {
+class TimeCount extends StatelessWidget {
   final int times;
 
   TimeCount(this.times);
 
   @override
-  _TimeCountState createState() => _TimeCountState();
-}
-
-class _TimeCountState extends State<TimeCount> {
-  String countText;
-  @override
-  void initState() {
-    countText = "${widget.times}";
-    changeTime();
-    super.initState();
-  }
-  @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        countText,
-        style: TextStyle(
-          fontSize: 48.0
-        ),
-      ),
+    return StreamBuilder<String>(
+      stream: changeTime(),
+      initialData: "$times",
+      builder: (context, snapshot) {
+        return Center(
+          child: Text(
+            snapshot.data,
+            style: TextStyle(fontSize: 48.0),
+          ),
+        );
+      },
     );
   }
 
-  Future changeTime() async {
-    for(int i = 0; i <= widget.times; i++){
+  Stream<String> changeTime() async* {
+    for (int i = 0; i < times; i++) {
+      yield "${times - i}";
       await Future.delayed(Duration(seconds: 1));
-      setState(() {
-        countText = "${widget.times - i}";
-      });
     }
 
-    setState(() {
-      countText = "Time out!";
-    });
+    yield "Time out!";
   }
 }
